@@ -564,7 +564,7 @@ Having issues or questions?
 
 [![GitHub Follow](https://img.shields.io/github/followers/Tethi04?label=Follow&style=social)](https://github.com/Tethi04)
 [![Kaggle](https://img.shields.io/badge/Kaggle-Profile-blue)](https://www.kaggle.com/tethibiswas)
-[![Twitter](https://img.shields.io/twitter/follow/?style=social)]
+[![Twitter] (https://img.shields.io/twitter/follow/yourhandle?style=social)](https://twitter.com/)
 
 ### 🏆 **Agents Intensive Capstone Project Submission**
 **Transforming self-directed learning through intelligent multi-agent systems**
