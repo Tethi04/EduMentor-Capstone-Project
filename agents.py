@@ -341,11 +341,11 @@ ROOT_AGENT.get_root_stats = get_root_stats
 
 print(f"✅ Root Agent '{ROOT_AGENT.name}' initialized with enhanced capabilities")
 
-# Export all agents
+# Export all agents - MUST BE AT THE END OF THE FILE
 __all__ = [
     'EduMentorAgent',
     'GeminiAgent',
     'TutorAgent',
     'AssessmentAgent',
     'ROOT_AGENT'
-]
+            ]
