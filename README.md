@@ -538,8 +538,8 @@ Having issues or questions?
 
 - **GitHub Issues**: [Open an Issue](https://github.com/Tethi04/EduMentor-Capstone-Project/issues)
 - **Kaggle Discussion**: [Visit Competition Page](https://www.kaggle.com/competitions/agents-intensive-capstone-project)
-- **Email**: [inyunpinky1994@gmail.com]
-- **LinkedIn**: [https://www.linkedin.com/in/tethi-biswas-555792358]
+- **Email**: (inyunpinky1994@gmail.com)
+- **LinkedIn**: (https://www.linkedin.com/in/tethi-biswas-555792358)
 
 ## 🎯 Competition Submission Details
 
@@ -564,7 +564,7 @@ Having issues or questions?
 
 [![GitHub Follow](https://img.shields.io/github/followers/Tethi04?label=Follow&style=social)](https://github.com/Tethi04)
 [![Kaggle](https://img.shields.io/badge/Kaggle-Profile-blue)](https://www.kaggle.com/tethibiswas)
-[![Twitter](https://img.shields.io/twitter/follow/yourhandle?style=social)]
+[![Twitter](https://img.shields.io/twitter/follow/)]
 
 ### 🏆 **Agents Intensive Capstone Project Submission**
 **Transforming self-directed learning through intelligent multi-agent systems**
