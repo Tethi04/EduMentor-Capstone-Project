@@ -312,3 +312,11 @@ class AssessmentAgent(EduMentorAgent):
 
 # Export commonly used agents
 __all__ = ['EduMentorAgent', 'TutorAgent', 'AssessmentAgent']
+
+# Add at the END of your agents.py file:
+
+# Create a default root agent instance
+ROOT_AGENT = EduMentorAgent(name="EduMentorRoot", specialization="Main Educational Assistant")
+
+# Export it
+__all__.append('ROOT_AGENT')  # Add this if you have __all__ defined
