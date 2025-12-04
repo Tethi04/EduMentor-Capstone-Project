@@ -1,6 +1,6 @@
 """
 AI Agent System for EduMentor
-Defines specialized educational agents
+Defines specialized educational agents including ROOT_AGENT
 """
 
 import random
@@ -206,44 +206,46 @@ class EduMentorAgent:
         }
 
 
+class GeminiAgent(EduMentorAgent):
+    """Agent using Google's Gemini API"""
+    
+    def __init__(self, api_key=None):
+        super().__init__(name="GeminiEdu", specialization="Advanced AI Tutoring")
+        
+        self.api_key = api_key
+        self.gemini_available = False
+        
+        if api_key and api_key != "DEMO_KEY":
+            try:
+                import google.generativeai as genai
+                genai.configure(api_key=api_key)
+                self.model = genai.GenerativeModel('gemini-pro')
+                self.gemini_available = True
+                print("✅ Gemini AI initialized")
+            except Exception as e:
+                print(f"⚠️ Gemini initialization failed: {e}")
+        else:
+            print("⚠️ No valid API key - using fallback mode")
+    
+    def assist(self, query):
+        """Enhanced assistance using Gemini AI"""
+        if self.gemini_available:
+            try:
+                response = self.model.generate_content(query)
+                return response.text
+            except Exception as e:
+                print(f"⚠️ Gemini API error: {e}")
+        
+        # Fallback to parent class
+        return super().assist(query)
+
+
 class TutorAgent(EduMentorAgent):
     """Specialized tutor agent for one-on-one instruction"""
     
     def __init__(self):
         super().__init__(name="TutorBot", specialization="Personalized Tutoring")
         self.student_profiles = {}
-        self.adaptive_questions = []
-    
-    def create_study_plan(self, student_level, goals, timeframe="1 month"):
-        """Create personalized study plan"""
-        return f"""
-        📅 Personalized Study Plan
-        
-        Student Level: {student_level}
-        Goals: {goals}
-        Timeframe: {timeframe}
-        
-        Weekly Schedule:
-        Week 1: Foundation building
-        Week 2: Concept application  
-        Week 3: Practice & review
-        Week 4: Assessment & refinement
-        
-        Daily Tasks:
-        • 30 minutes focused study
-        • 15 minutes practice problems
-        • 10 minutes review previous topics
-        """
-    
-    def provide_feedback(self, student_work, rubric=None):
-        """Provide detailed feedback on student work"""
-        return {
-            "overall_score": 85,
-            "detailed_feedback": "Good effort with clear understanding. Consider adding more examples.",
-            "strengths": ["Clear explanations", "Good structure"],
-            "improvements": ["More detailed examples", "Connect to related topics"],
-            "next_steps": ["Review section 3.2", "Practice with additional problems"]
-        }
 
 
 class AssessmentAgent(EduMentorAgent):
@@ -253,63 +255,10 @@ class AssessmentAgent(EduMentorAgent):
         super().__init__(name="AssessorBot", specialization="Assessment & Analytics")
         self.rubrics = {}
         self.analytics_data = []
-    
-    def create_rubric(self, criteria, weights):
-        """Create assessment rubric"""
-        rubric_id = f"rubric_{len(self.rubrics) + 1}"
-        self.rubrics[rubric_id] = {
-            "criteria": criteria,
-            "weights": weights,
-            "total_points": 100
-        }
-        return rubric_id
-    
-    def analyze_performance(self, scores, student_id=None):
-        """Analyze student performance"""
-        average = sum(scores) / len(scores) if scores else 0
-        max_score = max(scores) if scores else 0
-        min_score = min(scores) if scores else 0
-        
-        return {
-            "average_score": round(average, 1),
-            "highest_score": max_score,
-            "lowest_score": min_score,
-            "total_assessments": len(scores),
-            "performance_level": self._get_performance_level(average)
-        }
-    
-    def _get_performance_level(self, score):
-        """Determine performance level"""
-        if score >= 90:
-            return "Excellent"
-        elif score >= 80:
-            return "Good"
-        elif score >= 70:
-            return "Satisfactory"
-        elif score >= 60:
-            return "Needs Improvement"
-        else:
-            return "Critical Review Needed"
-    
-    def generate_report(self, student_data, period="monthly"):
-        """Generate comprehensive assessment report"""
-        return f"""
-        📊 Assessment Report
-        Period: {period}
-        Student: {student_data.get('name', 'Anonymous')}
-        
-        Summary:
-        • Total assessments: {student_data.get('total_assessments', 0)}
-        • Average score: {student_data.get('average_score', 0)}%
-        • Performance level: {student_data.get('performance_level', 'N/A')}
-        
-        Recommendations:
-        1. Focus on areas with lowest scores
-        2. Increase practice frequency
-        3. Seek clarification on challenging topics
-        """
+
+
 # ============================================
-# ROOT AGENT INSTANCE
+# ROOT AGENT DEFINITION
 # ============================================
 
 # Create the main root agent instance
@@ -318,92 +267,84 @@ ROOT_AGENT = EduMentorAgent(
     specialization="Primary Educational AI Assistant"
 )
 
-# Add comprehensive capabilities to root agent
+# Add enhanced capabilities
+ROOT_AGENT.version = "1.0.0"
+ROOT_AGENT.is_root = True
 ROOT_AGENT.capabilities = [
-    "Real-time Q&A assistance",
-    "Lesson content generation",
-    "Student assessment and feedback",
-    "Personalized learning paths",
+    "Real-time educational Q&A",
     "Multi-subject expertise",
-    "Progress tracking"
-]
-
-ROOT_AGENT.subjects = [
-    "Mathematics", "Science", "History", "Literature",
-    "Computer Science", "Languages", "Arts", "Social Studies"
+    "Content generation",
+    "Student assessment",
+    "Personalized learning paths"
 ]
 
 # Enhanced assist method for root agent
-def root_assist(self, query):
-    """Enhanced assistance method for ROOT_AGENT"""
-    enhanced_query = f"""
-    As the primary educational AI assistant, provide a comprehensive response:
+def root_enhanced_assist(query):
+    """Enhanced assistance for root agent"""
+    enhanced_prompt = f"""
+    As the primary educational AI assistant (EduMentorRoot), provide a comprehensive response:
     
-    QUERY: {query}
+    STUDENT QUERY: {query}
     
-    Requirements:
-    1. Be clear and educational
-    2. Include key concepts
-    3. Provide relevant examples
-    4. Suggest further learning resources
-    5. Keep it engaging for students
+    Please ensure your response:
+    1. Is clear and educational
+    2. Includes key concepts
+    3. Provides relevant examples
+    4. Suggests further learning
+    5. Is engaging and encouraging
     """
-    return self._general_response(enhanced_query)
+    
+    # Use parent's assist method with enhanced prompt
+    return EduMentorAgent.assist(ROOT_AGENT, enhanced_prompt)
 
-# Attach enhanced method to ROOT_AGENT
-ROOT_AGENT.enhanced_assist = root_assist.__get__(ROOT_AGENT, EduMentorAgent)
+# Attach the enhanced method
+ROOT_AGENT.enhanced_assist = root_enhanced_assist
 
-# Add stats tracking
-ROOT_AGENT.stats = {
-    "requests_processed": 0,
+# Add usage tracking
+ROOT_AGENT.usage_stats = {
+    "total_requests": 0,
     "subjects_covered": set(),
-    "average_response_time": 0,
-    "student_satisfaction": 4.5
+    "last_active": datetime.now()
 }
 
-def track_and_assist(self, query):
+def track_and_assist(query):
     """Track usage and provide assistance"""
-    self.stats["requests_processed"] += 1
+    ROOT_AGENT.usage_stats["total_requests"] += 1
+    ROOT_AGENT.usage_stats["last_active"] = datetime.now()
     
-    # Track subject if detectable
-    for subject in self.subjects:
-        if subject.lower() in query.lower():
-            self.stats["subjects_covered"].add(subject)
+    # Track subjects
+    subjects = ["math", "science", "history", "programming", "literature"]
+    for subject in subjects:
+        if subject in query.lower():
+            ROOT_AGENT.usage_stats["subjects_covered"].add(subject)
     
-    # Get response
-    response = self.assist(query)
-    
-    # Update response time (simulated)
-    self.stats["average_response_time"] = (
-        self.stats["average_response_time"] * 0.9 + 0.5 * 0.1
-    )
-    
-    return response
+    return ROOT_AGENT.enhanced_assist(query)
 
-ROOT_AGENT.track_and_assist = track_and_assist.__get__(ROOT_AGENT, EduMentorAgent)
+ROOT_AGENT.track_and_assist = track_and_assist
 
-# Add get_stats method
-def get_detailed_stats(self):
+# Get detailed stats method
+def get_root_stats():
     """Get detailed statistics about root agent"""
     return {
-        "agent_name": self.name,
-        "specialization": self.specialization,
-        "total_requests": self.stats["requests_processed"],
-        "subjects_covered": list(self.stats["subjects_covered"]),
-        "avg_response_time_sec": round(self.stats["average_response_time"], 2),
-        "satisfaction_rating": self.stats["student_satisfaction"],
-        "capabilities": self.capabilities,
-        "active_since": self.created_at.strftime("%Y-%m-%d %H:%M:%S")
+        "agent_name": ROOT_AGENT.name,
+        "specialization": ROOT_AGENT.specialization,
+        "version": ROOT_AGENT.version,
+        "is_root": ROOT_AGENT.is_root,
+        "total_requests": ROOT_AGENT.usage_stats["total_requests"],
+        "subjects_covered": list(ROOT_AGENT.usage_stats["subjects_covered"]),
+        "last_active": ROOT_AGENT.usage_stats["last_active"].strftime("%Y-%m-%d %H:%M:%S"),
+        "capabilities": ROOT_AGENT.capabilities,
+        "created_at": ROOT_AGENT.created_at.strftime("%Y-%m-%d %H:%M:%S")
     }
 
-ROOT_AGENT.get_detailed_stats = get_detailed_stats.__get__(ROOT_AGENT, EduMentorAgent)
+ROOT_AGENT.get_root_stats = get_root_stats
 
-print(f"✅ Root agent '{ROOT_AGENT.name}' initialized with enhanced capabilities")
+print(f"✅ Root Agent '{ROOT_AGENT.name}' initialized with enhanced capabilities")
 
-# Export ROOT_AGENT
+# Export all agents
 __all__ = [
     'EduMentorAgent',
-    'GeminiAgent', 
+    'GeminiAgent',
     'TutorAgent',
     'AssessmentAgent',
     'ROOT_AGENT'
