@@ -1,6 +1,3 @@
-
-#### **2. main.py** (Main application)
-```python
 #!/usr/bin/env python3
 """
 EduMentor: AI-Powered Educational Assistant
@@ -30,7 +27,7 @@ def display_banner():
 
 def initialize_system():
     """Initialize all system components"""
-    print("🔧 Initializing EduMentor System...")
+    print("Initializing EduMentor System...")
     
     agents = {
         "main": EduMentorAgent(),
@@ -38,8 +35,8 @@ def initialize_system():
         "assessor": AssessmentAgent()
     }
     
-    print(f"✅ Agents initialized: {list(agents.keys())}")
-    print(f"📚 Available tools: {educational_tools}")
+    print(f"Agents initialized: {list(agents.keys())}")
+    print(f"Available tools: {educational_tools}")
     
     return agents
 
@@ -48,15 +45,15 @@ def interactive_mode():
     agents = initialize_system()
     main_agent = agents["main"]
     
-    print("\n💬 Interactive Mode Activated")
+    print("\nInteractive Mode Activated")
     print("Type 'exit' to quit, 'help' for commands")
     
     while True:
         try:
-            user_input = input("\n🎯 Student Query: ").strip()
+            user_input = input("\nStudent Query: ").strip()
             
             if user_input.lower() == 'exit':
-                print("👋 Closing EduMentor. Have a great learning session!")
+                print("Closing EduMentor. Have a great learning session!")
                 break
             elif user_input.lower() == 'help':
                 print("\nAvailable Commands:")
@@ -66,38 +63,38 @@ def interactive_mode():
                 print("- template [science|math|history]: Show template")
                 continue
             elif user_input.lower() == 'tools':
-                print(f"\n🛠️ Tools: {educational_tools}")
+                print(f"\nTools: {educational_tools}")
                 continue
             elif user_input.lower() == 'agents':
-                print("\n🤖 Available Agents:")
+                print("\nAvailable Agents:")
                 for name, agent in agents.items():
                     print(f"  - {name}: {agent.specialization}")
                 continue
             elif user_input.startswith('template '):
                 template_type = user_input.split(' ', 1)[1]
                 if template_type in lesson_templates:
-                    print(f"\n📝 {template_type.capitalize()} Template:")
+                    print(f"\n{template_type.capitalize()} Template:")
                     print(lesson_templates[template_type])
                 else:
-                    print(f"❌ Unknown template type. Available: {list(lesson_templates.keys())}")
+                    print(f"Unknown template type. Available: {list(lesson_templates.keys())}")
                 continue
             
             # Process query
             if user_input:
-                print("\n🤖 Processing your query...")
+                print("\nProcessing your query...")
                 response = main_agent.assist(user_input)
                 formatted = format_response(response)
-                print(f"\n💡 Response:\n{formatted}")
+                print(f"\nResponse:\n{formatted}")
                 
         except KeyboardInterrupt:
-            print("\n\n👋 Interrupted. Closing EduMentor.")
+            print("\n\nInterrupted. Closing EduMentor.")
             break
         except Exception as e:
-            print(f"⚠️ Error: {e}")
+            print(f"Error: {e}")
 
 def demo_mode():
     """Run demonstration mode"""
-    print("\n🚀 Running EduMentor Demo...")
+    print("\nRunning EduMentor Demo...")
     
     agents = initialize_system()
     main_agent = agents["main"]
@@ -119,7 +116,7 @@ def demo_mode():
         
         # Show assessment example
         if i == 1:
-            print(f"\n📊 Assessment Example:")
+            print(f"\nAssessment Example:")
             assessment = agents["assessor"].evaluate("Photosynthesis converts sunlight to energy")
             print(f"Score: {assessment['score']}/100")
             print(f"Feedback: {assessment['feedback']}")
@@ -128,7 +125,7 @@ def main():
     """Main entry point"""
     parser = argparse.ArgumentParser(description='EduMentor AI Educational System')
     parser.add_argument('--mode', choices=['interactive', 'demo', 'test'], 
-                       default='interactive', help='Run mode')
+                       default='demo', help='Run mode')
     parser.add_argument('--query', type=str, help='Direct query (for test mode)')
     
     args = parser.parse_args()
@@ -145,7 +142,7 @@ def main():
         print(f"\nQuery: {args.query}")
         print(f"Response: {response}")
     else:
-        print("❌ Invalid mode or missing query. Use --help for options")
+        print("Invalid mode or missing query. Use --help for options")
 
 if __name__ == "__main__":
     main()
